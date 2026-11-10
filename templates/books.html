@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Books</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-dark bg-dark px-4">
+    <span class="navbar-brand mb-0 h1">📚 Manage Books</span>
+</nav>
+
+<div class="container mt-4">
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="alert alert-success">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Add New Book -->
+    <div class="card shadow-sm p-4 mb-4">
+        <h4 class="mb-3">Add New Book</h4>
+        <form method="POST" action="/books">
+            <div class="row">
+                <div class="col-md-5">
+                    <input type="text" name="title" class="form-control" placeholder="Book Title" required>
+                </div>
+                <div class="col-md-5">
+                    <input type="text" name="author" class="form-control" placeholder="Author Name" required>
+                </div>
+                <div class="col-md-5">
+                    <input type="number" name="quantity" placeholder="Book Count" required>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-success w-100">Add</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Books Table -->
+    <div class="card shadow-sm p-4">
+        <h4 class="mb-3">Book List</h4>
+
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Status</th>
+                    <th>Total Books</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.quantity }}</td>
+                    <td>{{ book.status}}</td>
+                    <td>
+                        {% if book.status == 'Available' %}
+                        <span class="badge bg-success">Available</span>
+                        {% else %}
+                        <span class="badge bg-danger">Issued</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3" class="text-center text-muted">
+                        No books added yet.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+<style>
+body{
+    min-height:100vh;
+    background: linear-gradient(135deg, #f0f4f3, #dcefe6);
+    background-attachment: fixed;
+}
+</style>
+
+</body>
+</html>

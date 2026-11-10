@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Overdue Notifications</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+    <nav class="navbar navbar-dark bg-dark px-4">
+    <span class="navbar-brand mb-0 h1">🔔 Notification</span>
+</nav>
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg">
+        <div class="card-header bg-danger text-white">
+            <h4 class="mb-0">⏰ Overdue Notifications</h4>
+        </div>
+
+        <div class="card-body">
+
+            {% if notifications %}
+                <div class="row">
+
+                    {% for note in notifications %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card border-danger shadow-sm h-100">
+                            <div class="card-body">
+
+                                <h5 class="card-title text-danger fw-bold">
+                                    📚 {{ note.title }}
+                                </h5>
+
+                                <p class="mb-2">
+                                    <strong>Borrowed By:</strong> {{ note.student }}
+                                </p>
+
+                                <div class="mt-2">
+    <span class="badge bg-danger fs-6">
+        ⏰ Overdue by {{ note.minutes }}  minutes
+    </span>
+</div>
+
+<div class="mt-2">
+    <span class="badge bg-dark fs-6">
+        💰 Fine: ₹ {{ note.fine }}
+    </span>
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+            {% else %}
+
+                <div class="alert alert-success text-center">
+                    🎉 No overdue books right now!
+                </div>
+
+            {% endif %}
+
+        </div>
+    </div>
+
+</div>
+<style>
+body{
+    min-height:100vh;
+    background: linear-gradient(135deg, #f0f4f3, #dcefe6);
+    background-attachment: fixed;
+}
+</style>
+</body>
+</html>

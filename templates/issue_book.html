@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Issue Book</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">📚 Issue Book</h4>
+        </div>
+
+        <div class="card-body">
+            <form method="POST">
+
+                <!-- Roll No + Class (User Enters Only These) -->
+                <div class="row mb-3">
+                    <div class="col">
+                        <label class="form-label">Roll No</label>
+                        <input type="text" id="roll_no" name="roll_no" 
+                               class="form-control" required>
+                    </div>
+
+                    <div class="col">
+                        <label class="form-label">Class</label>
+                        <input type="text" id="student_class" name="student_class" 
+                               class="form-control" required>
+                    </div>
+                </div>
+
+                <!-- Auto-Filled Fields -->
+                <div class="row mb-3">
+                    <div class="col">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" id="full_name" name="student_name" 
+                               class="form-control" readonly>
+                    </div>
+
+                    <div class="col">
+                        <label class="form-label">Contact</label>
+                        <input type="text" id="contact" 
+                               class="form-control" readonly>
+                    </div>
+
+                    <div class="col">
+                        <label class="form-label">Email</label>
+                        <input type="email" id="email" 
+                               class="form-control" readonly>
+                    </div>
+                </div>
+
+                <!-- Select Book -->
+                <div class="mb-3">
+                    <label class="form-label">Select Book</label>
+                    <select name="book_id" class="form-select" required>
+                        <option value="">-- Choose Book --</option>
+                        {% for book in books %}
+                            <option value="{{ book['id'] }}">
+                                {{ book['title'] }} - {{ book['author'] }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-success btn-lg">
+                        Issue Book
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Auto Fetch Script -->
+<script>
+function fetchStudent() {
+    let roll = document.getElementById("roll_no").value;
+    let cls = document.getElementById("student_class").value;
+
+    if (roll && cls) {
+        fetch(`/get-student?roll_no=${roll}&student_class=${cls}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.full_name) {
+                document.getElementById("full_name").value = data.full_name;
+                document.getElementById("contact").value = data.contact;
+                document.getElementById("email").value = data.email;
+            } else {
+                document.getElementById("full_name").value = "";
+                document.getElementById("contact").value = "";
+                document.getElementById("email").value = "";
+                alert("Student not found!");
+            }
+        });
+    }
+}
+
+document.getElementById("roll_no").addEventListener("blur", fetchStudent);
+document.getElementById("student_class").addEventListener("blur", fetchStudent);
+</script>
+<style>
+body{
+    min-height:100vh;
+    background: linear-gradient(135deg, #f0f4f3, #dcefe6);
+    background-attachment: fixed;
+}
+</style>
+</body>
+</html>

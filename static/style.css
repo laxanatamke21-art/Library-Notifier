@@ -1,0 +1,17 @@
+body {
+    background: linear-gradient(to right, #dfe9f3, #ffffff);
+}
+
+table {
+    background: white;
+}
+
+.card {
+    border-radius: 12px;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 22px;
+}
+

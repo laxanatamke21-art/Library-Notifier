@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="mb-4">Available Books</h2>
+
+<table class="table table-hover shadow">
+    <thead class="table-dark">
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>
+                {% if book.status == "Available" %}
+                    <span class="badge bg-success">Available</span>
+                {% else %}
+                    <span class="badge bg-danger">Issued</span>
+                {% endif %}
+            </td>
+            <td>
+                {% if book.status == "Available" %}
+                    <a href="/issue/{{ book.id }}" class="btn btn-primary btn-sm">Issue</a>
+                {% else %}
+                    <button class="btn btn-secondary btn-sm" disabled>Issued</button>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

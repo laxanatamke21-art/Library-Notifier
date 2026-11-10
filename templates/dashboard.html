@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - Library Notifier</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            background: linear-gradient(135deg, #1f4037, #99f2c8);
+            min-height: 100vh;
+        }
+
+        .card {
+            border-radius: 15px;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .bg-total { background: linear-gradient(45deg, #007bff, #00c6ff); }
+        .bg-issued { background: linear-gradient(45deg, #ff416c, #ff4b2b); }
+        .bg-available { background: linear-gradient(45deg, #11998e, #38ef7d); }
+
+        .navbar {
+            background: rgba(0,0,0,0.6);
+        }
+
+        .chart-container{
+            width: 420px;
+            height: 420px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-dark">
+    <div class="container">
+        <span class="navbar-brand">📚 Library Dashboard</span>
+        <div>
+            <a href="/issue-book" class="btn btn-warning btn-sm">Issue Book</a>
+            <a href="/issued-books" class="btn btn-warning">View Issued Books</a>
+            <a href="/books" class="btn btn-warning btn-sm">Manage Books</a>
+            <a href="/notifications" class="btn btn-warning btn-sm">Notifications</a>
+            <a href="/students" class="btn btn-warning btn-sm">Students</a>
+            <a href="/logout" class="btn btn-warning btn-sm">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+
+    <!-- STAT CARDS -->
+    <div class="row g-4">
+
+        <div class="col-md-4">
+            <div class="card bg-total p-4 shadow">
+                <h5>Total Books</h5>
+                <h2>{{ total }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-issued p-4 shadow">
+                <h5>Issued Books</h5>
+                <h2>{{ issued }}</h2>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card bg-available p-4 shadow">
+                <h5>Available Books</h5>
+                <h2>{{ available }}</h2>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- CHART -->
+    <div class="chart-container">
+        <h4 class="text-center mb-4">Library Overview</h4>
+        <canvas id="libraryChart"></canvas>
+    </div>
+
+</div>
+
+<script>
+    const ctx = document.getElementById('libraryChart');
+
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Total', 'Issued', 'Available'],
+            datasets: [{
+                data: [{{ total }}, {{ issued }}, {{ available }}],
+                backgroundColor: [
+                    '#007bff',
+                    '#ff4b2b',
+                    '#38ef7d'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
